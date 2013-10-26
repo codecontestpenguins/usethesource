@@ -1,1 +1,6 @@
-example file
+Microsoft Code Contest - Oct 25 2013
+====================================
+
+Team: Penguins
+
+Quest: To find the holy gr-- err, to solve 6 programming problems in Python.
