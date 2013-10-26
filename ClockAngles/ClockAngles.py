@@ -1,4 +1,7 @@
 #!/bin/env python2.7
+
+filename = "SampleInput.txt"
+
 times = []
 
 class Time:
@@ -30,9 +33,30 @@ class Time:
 	def printAngles(self):
 		print "Angles: h = %.2f, m = %.2f, s = %.2f" % (self.getHourAngle(), self.getMinuteAngle(), self.getSecondAngle())
 
+	def getHourMinuteAngle(self):
+		angle_diff = abs(self.getHourAngle() - self.getMinuteAngle())
+		if (angle_diff > 180):
+			angle_diff = 360 - angle_diff
+		return angle_diff
+
+	def getHourSecondAngle(self):
+		angle_diff = abs(self.getHourAngle() - self.getSecondAngle())
+		if (angle_diff > 180):
+			angle_diff = 360 - angle_diff
+		return angle_diff
+
+	def getMinuteSecondAngle(self):
+		angle_diff = abs(self.getMinuteAngle() - self.getSecondAngle())
+		if (angle_diff > 180):
+			angle_diff = 360 - angle_diff
+		return angle_diff
+
+	def printAngleDifferences(self):
+		# format: hour-minute, hour-second, minute-second
+		print "%.2f, %.2f, %.2f" % (round(self.getHourMinuteAngle(),2), round(self.getHourSecondAngle(),2), round(self.getMinuteSecondAngle(),2))
 
 def main():
-	f = open('SampleInput.txt', 'r')
+	f = open(filename, 'r')
 
 	# Read in number of inputs
 	n = int(f.readline())
@@ -46,11 +70,11 @@ def main():
 
 	f.close()
 
-	# TESTING
+	# Print number of times
+	print n
+
+	# Print each set of angle differences
 	for time in times:
-		print str(time) + " = hour " + str(time.h) + " minute " + str(time.m) + " second " + str(time.s)
-		time.printAngles()
-
-
+		time.printAngleDifferences()
 
 main()
