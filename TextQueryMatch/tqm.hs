@@ -9,17 +9,16 @@ main = do
     putStrLn n
     mapM_ putStrLn $ map show $ matches (map (delete '\r') xs)
 
-matches :: [String] -> [(String, String, Bool)]
-{-matches :: [String] -> [Bool]-}
+matches :: [String] -> [Bool]
 matches [] = []
 matches (m:s:xs) = match m s : matches xs
 matches (_:xs) = []
 
-match :: String -> String -> (String, String, Bool)
-match m s = (m', s', if head s' /= m0 then
+match :: String -> String -> Bool
+match m s = if head s' /= m0 then
                         mx m' $ unwords $ tail $ words s'
                     else 
-                        mx m' s')
+                        mx m' s'
   where
     m'@(m0:_) = map toLower m
     s' = map toLower s
