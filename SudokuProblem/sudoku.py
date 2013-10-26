@@ -11,7 +11,7 @@ import itertools
 import copy
 import random
 
-inp = 'SampleInput.txt'
+inp = 'ActualInput.txt'
 outp = 'TestOutput.txt'
 
 class Cell():
@@ -47,7 +47,7 @@ class Cell():
 class Grid():
     def __init__(self):
         self.grid = [[Cell() for i in range(9)] for j in range(9)]
-    
+        self.guess = 0 
     def populate(self, mat):
         for row in range(9):
             ints = mat[row].split()
@@ -100,14 +100,21 @@ class Grid():
                 if not b.done:
                     return False
     def takeaguess(self):
-        ro = [0,1,2,3,4,5,6,7,8,9] 
-        co = [0,1,2,3,4,5,6,7,8,9]
-        for r in random.shuffle(ro):
-            for c in random.shuffle(co):
+        ro = [0,1,2,3,4,5,6,7,8]
+        #random.shuffle(ro) 
+        #print ro
+        co = [0,1,2,3,4,5,6,7,8]
+        #random.shuffle(co)
+        #print co
+        for r in ro:
+            for c in co:
                 b = self.grid[r][c]
-                if len(b.poss) == 2:
-                    b.setval(b.poss[random.randint(0,1)])
-
+                if not b.done:
+                    if len(b.poss) == 2:
+                        #print b.poss
+                        b.setval(b.poss[self.guess])
+                        #print b.val
+                        return
 def main():
     f = open(inp, 'r')
     boards = f.read()
@@ -116,22 +123,24 @@ def main():
         g = Grid()
         g.populate(re.split("\r\n", s))
         print g.show()
-        for i in range(20):
+        for i in range(70):
             g.rcloop()
             g.check()
             g.elimbox()
             g.check()
-        """
         if not g.arewethereyet(): # oh shit, time for guessing games
             h = copy.deepcopy(g)
             while not g.arewethereyet():
+                print "We aren't there yet :("
                 g = copy.deepcopy(h)
                 g.takeaguess()
-                for i in range(20):
+                for i in range(70):
                     g.rcloop()
                     g.elimbox()
                     g.check()
-        """
+                if not g.arewethereyet():
+                    g.guess = 1
+            
         print g.show()
 
 if __name__ == "__main__":
