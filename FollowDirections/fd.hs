@@ -1,4 +1,22 @@
 import Control.Monad.State
+import Data.List
+import Data.Char
+
+main = do
+    contents <- getContents
+    let instructions = map (delete '\r') $ lines contents
+    runStateT (runInstructions instructions) initialState
+
+runInstructions :: [String] -> Robo ()
+runInstructions (x:xs) =
+    case ins of 
+        "Turn" -> turn c >> runInstructions xs
+        "Move" -> move (read c) >> runInstructions xs
+  where
+    (ins : c : _) = words x
+runInstructions [] = do
+    p <- gets pos 
+    liftIO (putStrLn $ show p)
 
 type Position = (Int, Int)
 
@@ -7,30 +25,37 @@ data Direction = North | East | South | West
 
 data RoboState = RS { dir :: Direction, pos :: Position }
 
-type Robo = State RoboState
+type Robo = StateT RoboState IO
 
 initialState = RS { dir = North, pos = (0,0) }
 
 turn :: String -> Robo ()
-turn d = do
+turn "left" = do
+    d <- gets dir
+    let i = fromEnum d
+        d' = toEnum $ (i - 1) `mod` 4 
+    modify (\s -> s { dir = d' })
+
+turn "right" = do
     d <- gets dir
     let i = fromEnum d
         d' = toEnum $ (i + 1) `mod` 4 
     modify (\s -> s { dir = d' })
 
+
 move :: Int -> Robo ()
 move n = do
     d <- gets dir
     p <- gets pos
-    modify (\s -> s { pos = addP (vec d) p })
+    modify (\s -> s { pos = addP (vec d n) p })
 
 
 liftP2 f (ax, ay) (bx, by) = (f ax bx, f ay by)
 
 addP = liftP2 (+)
 
-vec :: Direction -> Position
-vec North = (0,1)
-vec South = (0,-1)
-vec East = (1,0)
-vec West = (-1,0)
+vec :: Direction -> Int -> Position
+vec North n = (0,n)
+vec South n = (0,-n)
+vec East  n= (n,0)
+vec West  n= (-n,0)
