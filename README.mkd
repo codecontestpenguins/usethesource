@@ -1,6 +1,6 @@
-Microsoft Code Contest SPACESHIPS WAS HERE - Oct 25 2013
-====================================
+#### Microsoft Code Contest - Oct 25 2013
 
-Team: Penguins
 
-Quest: To find the holy gr-- err, to solve 6 programming problems in Python.
+**Team:** Penguins
+
+**Quest:** To find the holy gr-- err, to solve 6 programming problems in Python.
