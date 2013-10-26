@@ -1,6 +1,7 @@
 #!/bin/env python2.7
 
-filename = "SampleInput.txt"
+# Change this to the file with the time input
+filename = "ActualInput.txt"
 
 times = []
 
