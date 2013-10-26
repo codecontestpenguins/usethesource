@@ -128,6 +128,7 @@ def main():
             g.check()
             g.elimbox()
             g.check()
+        """
         if not g.arewethereyet(): # oh shit, time for guessing games
             h = copy.deepcopy(g)
             while not g.arewethereyet():
@@ -140,7 +141,7 @@ def main():
                     g.check()
                 if not g.arewethereyet():
                     g.guess = 1
-            
+        """ 
         print g.show()
 
 if __name__ == "__main__":
